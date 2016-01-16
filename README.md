@@ -15,6 +15,8 @@ Some guidelines that I want to follow while writing the project:
   - simple objects with the least dependencies on each other
   - the field should be public only if all the possible values are correct. Provide setters and getters anyway.
   - class names, methods - pascal case , functions and fields - camel case. Simple structs, namespaces - snake case
+    Functions that are very cheap to call may instead follow the style for variable names
+    (all lower-case, with underscores between words). 
   - soft tabs - 4 spaces
   - use #pragma once guard for simplicity
   - order on includes: related header, C/C++ library, libraries, project's headers
