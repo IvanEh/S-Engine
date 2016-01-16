@@ -14,7 +14,7 @@ Some guidelines that I want to follow while writing the project:
   - {}-initialization over ()-init and assignment =
   - simple objects with the least dependencies on each other
   - the field should be public only if all the possible values are correct. Provide setters and getters anyway.
-  - class names - pascal case, methods, functions and fields - camel case. Simple structs, namespaces - snake case
+  - class names, methods - pascal case , functions and fields - camel case. Simple structs, namespaces - snake case
   - soft tabs - 4 spaces
   - use #pragma once guard for simplicity
   - order on includes: related header, C/C++ library, libraries, project's headers
