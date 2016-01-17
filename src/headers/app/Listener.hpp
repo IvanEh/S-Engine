@@ -17,7 +17,7 @@ public:
   Listener();
   Listener(Action* action);
   Listener(Action& action);
-  virtual bool OnAction(Event& event);
+  virtual bool OnAction(Event& event) {};
 };
 
 }

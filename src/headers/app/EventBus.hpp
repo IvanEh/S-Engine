@@ -1,3 +1,5 @@
+#pragma once
+
 #include <unordered_map>
 #include <vector>
 #include <string>
@@ -14,12 +16,14 @@ namespace app {
 
 class EventBus {
 private:
-  unordered_map<string, vector<Listener>> listeners; 
-  unordered_map<string, vector<Event>> eventQueue;
+  unordered_map<string, vector<Listener>> listeners{}; 
+  unordered_map<string, vector<Event>> eventQueue{};
   
-  static const EventBus* instance;
+  static EventBus* instance;
   
   EventBus();
+  EventBus(const EventBus& ) = delete;
+  EventBus(const EventBus&& ) = delete;
 public:
   
   void Subscribe(string eventKey, Listener listener);
@@ -28,6 +32,8 @@ public:
   
   static EventBus& GetEventBus();
 };
+
+ EventBus* EventBus::instance = nullptr;
 
 }
 }
