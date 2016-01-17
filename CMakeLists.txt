@@ -15,10 +15,11 @@ include_directories(${OPENGL_INCLUDE_DIRS})
 set ( SOURCE_DIR src)
 file ( GLOB_RECURSE SOURCE_FILES "${SOURCE_DIR}/*.cpp")
 
+include_directories(${SOURCE_DIR})
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} )
+
 install(TARGETS s-engine RUNTIME DESTINATION bin)
 
-#target_link_libraries(${PROJECT_NAME} glfw3 GLEW  ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES} ${GLEW_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} 
   ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES} ${GLFW_LIBRARIES}
   Xxf86vm pthread Xrandr Xinerama Xi Xcursor dl
