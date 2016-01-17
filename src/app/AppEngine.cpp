@@ -145,9 +145,6 @@ bool AppEngine::OnCreate() {
 }
 
 void AppEngine::OnTick() {
-  if(std::rand() % 1000 < 10) {
-    this->SetPos(this->x + 1, this->y + 1);
-  }
   
 }
 
