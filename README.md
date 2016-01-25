@@ -18,6 +18,7 @@ Some guidelines that I want to follow while writing the project:
     Functions that are very cheap to call may instead follow the style for variable names
     (all lower-case, with underscores between words). 
   - soft tabs - 4 spaces
+  - two lines between different implementations
   - use #pragma once guard for simplicity
   - order on includes: related header, C/C++ library, libraries, project's headers
   - if possible - do not seperate definition and declaration
