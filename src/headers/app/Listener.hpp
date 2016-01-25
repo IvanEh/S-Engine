@@ -1,8 +1,10 @@
 #pragma once
 
 #include <functional>
+#include <utility>
 
 #include "headers/app/Events.hpp"
+
 
 namespace s_engine {
 namespace app {
@@ -14,11 +16,13 @@ private:
   Action action;
   
 public:
-  Listener();
-  Listener(Action* action);
-  Listener(Action& action);
-  virtual void OnAction(Event& event){};
+   Listener();
+ Listener(Action* action);
+ Listener(Action& action);
+ virtual void OnAction(Event& event);
+  
 };
+
 
 }
 }

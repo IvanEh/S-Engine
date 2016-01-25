@@ -8,12 +8,15 @@
 #include "headers/app/Listener.hpp"
 
 using std::unordered_map;
+using std::unordered_multimap;
 using std::string;
 using std::vector;
 
 namespace s_engine {
 namespace app {
 
+//TODO: filters and criteria 
+//	priorities
 class EventBus {
 private:
   unordered_map<string, vector<Listener>> listeners{}; 
@@ -32,8 +35,6 @@ public:
   
   static EventBus& GetEventBus();
 };
-
- EventBus* EventBus::instance = nullptr;
 
 }
 }

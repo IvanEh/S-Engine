@@ -2,7 +2,7 @@
 
 namespace s_engine {
 namespace app {
- 
+  
 Listener::Listener(Action& action) {
   this->action = action;
 }
@@ -12,17 +12,15 @@ Listener::Listener(Action* action) {
 }
 
 Listener::Listener() {
-  this->action = Action();
+ this->action = Action();
 }
+  
 
 void Listener::OnAction(Event& event)
 {
-  this->action();
+  this->action(event);
   
 }
 
-
-
-  
 }
 }
