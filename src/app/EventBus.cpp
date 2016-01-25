@@ -1,4 +1,4 @@
-#include "headers/app/EventBus.hpp"
+#include "app/EventBus.hpp"
 
 #include <unordered_map>
 #include <vector>
@@ -6,8 +6,8 @@
 #include <utility>
 #include <map>
 
-#include "headers/app/Events.hpp"
-#include "headers/app/Listener.hpp"
+#include "app/Events.hpp"
+#include "app/Listener.hpp"
 
 using std::unordered_map;
 using std::unordered_multimap;

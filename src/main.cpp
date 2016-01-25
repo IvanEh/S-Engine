@@ -2,10 +2,10 @@
 #include <unistd.h>
 #include <unordered_map>
 
-#include "headers/app/AppEngine.hpp"
-#include "headers/utils.hpp"
-#include "headers/app/Listener.hpp"
-#include "headers/app/EventBus.hpp"
+#include "app/AppEngine.hpp"
+#include "utils.hpp"
+#include "app/Listener.hpp"
+#include "app/EventBus.hpp"
 
 using namespace s_engine::app;
 using namespace std;

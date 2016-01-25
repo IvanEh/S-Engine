@@ -4,8 +4,8 @@
 #include <vector>
 #include <string>
 
-#include "headers/app/Events.hpp"
-#include "headers/app/Listener.hpp"
+#include "app/Events.hpp"
+#include "app/Listener.hpp"
 
 using std::unordered_map;
 using std::unordered_multimap;

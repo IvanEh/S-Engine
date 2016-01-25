@@ -11,11 +11,12 @@ pkg_search_module(GLFW REQUIRED glfw3)
 include_directories(${GLFW_INCLUDE_DIRS})
 include_directories(${OPENGL_INCLUDE_DIRS})
 
-
 set ( SOURCE_DIR src)
+set ( INCLUDE_DIR "${SOURCE_DIR}/include")
+set ( EXT_DIR "external")
 file ( GLOB_RECURSE SOURCE_FILES "${SOURCE_DIR}/*.cpp")
 
-include_directories(${SOURCE_DIR})
+include_directories(${INCLUDE_DIR})
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} )
 
 install(TARGETS s-engine RUNTIME DESTINATION bin)

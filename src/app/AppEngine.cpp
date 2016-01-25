@@ -1,4 +1,4 @@
-#include "headers/app/AppEngine.hpp"
+#include "app/AppEngine.hpp"
 
 #include <random>
 
@@ -6,7 +6,7 @@
 #include <GL/gl.h>
 #include <GLFW/glfw3.h>
 
-#include "headers/utils.hpp"
+#include "utils.hpp"
 
 namespace s_engine {
 namespace app {
