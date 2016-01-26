@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
   
    EventBus::GetEventBus().Subscribe("click", listener);
    EventBus::GetEventBus().NotifyAll();
-   
+    cout << 1;
   //AppEngine appEngine{100, 100, 1, 1};
   //appEngine.Run();
   
