@@ -9,7 +9,7 @@
 namespace s_engine {
 namespace app {
   
-using Action = std::function<void(Event&)>;
+using Action = std::function<void(Event& event)>;
 
 class Listener {
 private:
@@ -18,9 +18,9 @@ private:
 public:
    Listener();
  Listener(Action* action);
- Listener(Action& action);
+ Listener(Action action);
  virtual void OnAction(Event& event);
-  
+ virtual void OnAction(Event&& event); 
 };
 
 

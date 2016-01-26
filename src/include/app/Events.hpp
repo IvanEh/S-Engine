@@ -5,11 +5,13 @@
 namespace s_engine {
 namespace app {
 
+class Context {};  
+  
 class Event {
 private:
-  const AppEngine* context;
+  const Context* context = nullptr;
 public:
-  const AppEngine* GetContext() const;
+  const Context* GetContext() const;
 };
 
 
