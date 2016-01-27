@@ -2,15 +2,13 @@
 
 #include <unordered_map>
 #include <vector>
+#include <queue>
 #include <string>
 
 #include "app/Events.hpp"
 #include "app/Listener.hpp"
 
-using std::unordered_map;
-using std::unordered_multimap;
-using std::string;
-using std::vector;
+using namespace std;
 
 namespace s_engine {
 namespace app {
@@ -20,7 +18,7 @@ namespace app {
 class EventBus {
 private:
   unordered_map<string, vector<Listener>> listeners{}; 
-  unordered_map<string, vector<Event>> eventQueue{};
+  unordered_map<string, queue<Event>> eventQueue{};
   
   static EventBus* instance;
   

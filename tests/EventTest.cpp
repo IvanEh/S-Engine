@@ -71,7 +71,7 @@ TEST(EventBusTest, MultipleCallbacksAndExecutions) {
   EXPECT_EQ(CALLBACKS_COUNT, callbackExCount);
   
   eventBus.Poll("test-event", Event{});
-   EXPECT_EQ(0, callbackExCount);
+  EXPECT_EQ(CALLBACKS_COUNT, callbackExCount);
    
   eventBus.NotifyAll();
   EXPECT_EQ(2*CALLBACKS_COUNT, callbackExCount);

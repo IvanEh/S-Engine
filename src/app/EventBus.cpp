@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <vector>
+#include <queue>
 #include <string>
 #include <utility>
 #include <map>
@@ -9,11 +10,7 @@
 #include "app/Events.hpp"
 #include "app/Listener.hpp"
 
-using std::unordered_map;
-using std::unordered_multimap;
-using std::string;
-using std::vector;
-using std::map;
+using namespace std;
 
 namespace s_engine {
 namespace app {
@@ -36,29 +33,32 @@ void EventBus::Subscribe(string eventKey, Listener listener) {
 
 void EventBus::Poll(string eventKey, Event event) {
   if(this->eventQueue.count(eventKey) <= 0) {
-    this->eventQueue[eventKey] = vector<Event>();
+    this->eventQueue[eventKey] = queue<Event>();
   }
   
-  this->eventQueue[eventKey].push_back(event);
+  this->eventQueue[eventKey].push(event);
 }
 
 
 void EventBus::NotifyAll() {
   for(auto it = this->eventQueue.begin(); it != this->eventQueue.end(); ++it) {
       string eventKey = it->first;
-      vector<Event>& events = it->second;
+      queue<Event>& events = it->second;
       
       for(int i = 0; i < events.size(); i++) {
-	Event& event = events[i];
+	Event& event = events.front();
 	vector<Listener>& listeners = this->listeners[eventKey];
 	
 	for(int j = 0; j < listeners.size(); j++) {
 	  listeners[j].OnAction(event);
 	}	
 	
+	events.pop();
       }
       
   }
+  
+  
 }
 
 
