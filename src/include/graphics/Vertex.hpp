@@ -2,6 +2,9 @@
 
 #include <GL/glew.h>
 
+namespace s_engine {
+namespace graphics {
+
 struct Vertex {
   union { 
     struct {
@@ -42,4 +45,9 @@ struct Vertex {
       GLfloat ty;
     };
   };
-}
+  
+  static void SetUpVAO(GLuint& VAO);
+};
+
+};
+};
