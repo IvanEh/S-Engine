@@ -42,7 +42,9 @@ bool InitOpengGlForTesting() {
 TEST(ModelTests, LoadingEmptyModel) {
   ASSERT_TRUE(InitOpengGlForTesting());
 
+  
   Model model;
   model.Load();
+  
   ASSERT_TRUE(model.is_loaded());
 }

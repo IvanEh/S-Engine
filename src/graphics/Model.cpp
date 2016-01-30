@@ -28,6 +28,10 @@ void Model::Load() {
   Vertex::SetUpVAO(VAO);
   
   this->loaded = true;
+
+  if(!this->keepInMemory) {
+      this->vertices.resize(0);
+  }
 }
 
 

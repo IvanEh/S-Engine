@@ -3,13 +3,15 @@
 #include <string>
 #include <map>
 
-#include <graphics/Model.hpp>
+#include "graphics/Model.hpp"
 
 using namespace std;
 
 namespace s_engine {
 namespace app {
 
+using namespace s_engine::graphics;  
+  
 struct ModelRes {
   Model* model;
   string path;
@@ -26,15 +28,16 @@ private:
 public:
     unsigned int LoadModel(string path, bool lazyLoad = false, bool lazyInst = false, bool keepInMemory = true);
     unsigned int LoadModel(string path, unsigned int id, bool lazyLoad = false, bool lazyInst = false, bool keepInMemory = true); 
-    unsigned int LoadModel(Model* model, unsigned int id);
-    unsigned int LoadModel(Model* model);
+    unsigned int LoadModel( s_engine::graphics::Model* model, unsigned int id, bool lazyLoad = false, bool keepInMemory = true );
     
     const Model* GetModel(unsigned int id);
     
     
     static Resources& R();
 };
-  
+ 
+
+
   
 }
 }
