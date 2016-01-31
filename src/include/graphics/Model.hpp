@@ -10,6 +10,11 @@ namespace s_engine {
 namespace graphics {
 
 // TODO: shared buffers
+/**
+ * A Model object represents a 3d object in normalized coordinate system.
+ * It could be loaded up to the GPU.
+ * Manipulations availiable only on not loaded(to the GPU) models.
+ */
 class Model {
 private:
   vector<Vertex> vertices;

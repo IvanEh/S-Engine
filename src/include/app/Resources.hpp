@@ -11,14 +11,21 @@ namespace s_engine {
 namespace app {
 
 using namespace s_engine::graphics;  
-  
+
+enum ModelLoadPolicy {
+ LOAD_ON_CREATION,
+ LAZY_LOAD,
+ MANUALLY
+};
+
 struct ModelRes {
   Model* model;
   string path;
-  bool lazyLoad;
+  ModelLoadPolicy loadPolicy;
   bool lazyInst;
   bool keepInMemory;
 };  
+
   
 class Resources {
 private:
@@ -26,9 +33,9 @@ private:
   
   static Resources* instance;
 public:
-    unsigned int LoadModel(string path, bool lazyLoad = false, bool lazyInst = false, bool keepInMemory = true);
-    unsigned int LoadModel(string path, unsigned int id, bool lazyLoad = false, bool lazyInst = false, bool keepInMemory = true); 
-    unsigned int LoadModel( s_engine::graphics::Model* model, unsigned int id, bool lazyLoad = false, bool keepInMemory = true );
+    unsigned int LoadModel(string path, ModelLoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool keepInMemory = true);
+    unsigned int LoadModel(string path, unsigned int id, ModelLoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool keepInMemory = true); 
+    unsigned int LoadModel( s_engine::graphics::Model* model, unsigned int id, ModelLoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool keepInMemory = true );
     
     const Model* GetModel(unsigned int id);
     

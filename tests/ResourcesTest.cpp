@@ -12,7 +12,7 @@ TEST( ResourcesTest, StoreModelPointer) {
   s_engine::app::Resources::R().LoadModel(model, 1);
   const Model* storedModel = s_engine::app::Resources::R().GetModel(1);
   
-  ASSERT_EQ(storedModel, model);
+  ASSERT_EQ(model, storedModel);
   
   delete model;
 }
