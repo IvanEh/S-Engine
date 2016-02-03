@@ -13,10 +13,12 @@ namespace app {
  * 
  * Entities could contain other entities(in other frameworks often such class
  * seperated into a derived class. But for the sake of simplicity we will have
- * only one class)
+ * only one class). Because of simplicity matter we add some additional 
+ * functionality to this class(e.g. position)
  * 
  * An Entity belongs only to one object. So if you want to share entities 
  * between other entities you need to create a copy of it. 
+ * 
  */
 class Entity {
 public: /* fields */
@@ -53,6 +55,7 @@ private: /* fields */
      * iterates through components often skip through them
      */
     bool active { true };
+    
     
 private: /* methods */
     void OnUpdate(long deltaTime);
