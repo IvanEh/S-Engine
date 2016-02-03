@@ -79,6 +79,7 @@ private: /* fields */
      */
     bool visible { false };
 private: /* methods */
+//     virtual void OnDraw();
 
 public: /* methods */
     void SetModel(GLuint id);
