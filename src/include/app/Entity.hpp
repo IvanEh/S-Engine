@@ -2,6 +2,9 @@
 
 #include <map>
 #include <list>
+#include <GL/gl.h>
+
+#include "app/Resources.hpp"
 
 using namespace std;
 
@@ -57,9 +60,37 @@ private: /* fields */
     bool active { true };
     
     
-private: /* methods */
-    void OnUpdate(long deltaTime);
     
+private: /* methods */
+    virtual void OnUpdate(long deltaTime);
+};
+
+class DrawableEntity: public Entity {
+private: /* fields */
+     /**
+     * Used to associate the entity with a model given by the resource
+     * id. 
+     */
+    GLuint modelResId { Resources::NONE };
+    
+    /**
+     * Defines the need to draw the entity. If set to false still interacting with
+     * the world
+     */
+    bool visible { false };
+private: /* methods */
+    virtual void OnDraw();
+
+public: /* methods */
+    void SetModel(GLuint id);
+    GLuint GetModelResId();
+    
+};
+
+/**
+ * Let's logically seperate entities that normally served as a part of other entities
+ */
+class Component: public Entity {
 };
 
 }

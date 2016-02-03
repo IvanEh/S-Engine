@@ -1,6 +1,13 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <glm/vec3.hpp>
+
+/**
+ * GLfloat is the default floating point type
+ * In general all 'significant' and 'sensible variable' should be opengl types
+ */
+
 
 namespace s_engine {
 namespace graphics {

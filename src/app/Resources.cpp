@@ -1,11 +1,13 @@
 #include <app/Resources.hpp>
+#include <GL/gl.h>
 
 namespace s_engine {
 namespace app {
  
     Resources* Resources::instance;
   
-unsigned int Resources::LoadModel ( s_engine::graphics::Model* model, unsigned int id, s_engine::app::ModelLoadPolicy loadPolicy, bool lazyInst, bool keepInMemory ) {
+GLuint Resources::LoadModel ( s_engine::graphics::Model* model, GLuint id, s_engine::app::ModelLoadPolicy 
+loadPolicy, bool lazyInst, bool keepInMemory ) {
   if(this->models.count(id) != 0) {
     return 0;
   }
@@ -24,7 +26,7 @@ unsigned int Resources::LoadModel ( s_engine::graphics::Model* model, unsigned i
   this->models[id] = res;
 } 
 
-const Model* Resources::GetModel ( unsigned int id ) {
+const Model* Resources::GetModel ( GLuint id ) {
     auto it = models.find(id);
     if(it ==  models.end() ) {
 	return nullptr;

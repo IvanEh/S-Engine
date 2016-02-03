@@ -10,6 +10,7 @@ using namespace std;
 namespace s_engine {
 namespace app {
 
+
 using namespace s_engine::graphics;  
 
 enum ModelLoadPolicy {
@@ -17,6 +18,8 @@ enum ModelLoadPolicy {
  LAZY_LOAD,
  MANUALLY
 };
+
+
 
 struct ModelRes {
   Model* model;
@@ -28,23 +31,26 @@ struct ModelRes {
 
   
 class Resources {
+public: /* fields */
+  static constexpr GLuint NONE = 0;
 private:
-  map<unsigned int, ModelRes> models;
+  map<GLuint, ModelRes> models;
   
   static Resources* instance;
 public:
-    unsigned int LoadModel(string path, ModelLoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool keepInMemory = true);
-    unsigned int LoadModel(string path, unsigned int id, ModelLoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool keepInMemory = true); 
-    unsigned int LoadModel( s_engine::graphics::Model* model, unsigned int id, ModelLoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool keepInMemory = true );
+    GLuint LoadModel(string path, ModelLoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool keepInMemory = true)
+;
+    GLuint LoadModel(string path, GLuint id, ModelLoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool 
+        keepInMemory = true); 
+    GLuint LoadModel( s_engine::graphics::Model* model, GLuint id, ModelLoadPolicy loadPolicy = LAZY_LOAD, bool 
+        lazyInst = false, bool keepInMemory = true );
     
-    const Model* GetModel(unsigned int id);
+    const Model* GetModel(GLuint id);
     
     
     static Resources& R();
 };
  
-
-
   
 }
 }

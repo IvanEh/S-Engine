@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 
-#include "graphics/Vertex.hpp"
+#include "Units.hpp"
 
 namespace s_engine {
 namespace graphics {
