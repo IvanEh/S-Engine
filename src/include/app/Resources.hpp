@@ -83,9 +83,16 @@ private:
 public: /* functions */
     // GLuint LoadModel(string path, LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool keepInMemory = true);
     
-    GLuint LoadModel(string path, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool 
+    /**
+     * Adds a model asset loading rule
+     */
+    GLuint AddModel(string path, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool 
         keepInMemory = true); 
-    GLuint LoadShader( string path, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool 
+    
+    /**
+     * Adds a shader asset loading rule
+     */
+    GLuint AddShader( string path, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool 
         keepInMemory = true);
     
     /**
@@ -94,6 +101,10 @@ public: /* functions */
     GLuint LoadModel( Model* model, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool 
         lazyInst = false, bool keepInMemory = true );
     
+    /**
+     * Loads all the resources that weren't lazily loaded before
+     * This function usually takes a lot of time to execute
+     */
     void LoadResources();
     
     /**

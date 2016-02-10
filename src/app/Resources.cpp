@@ -6,7 +6,7 @@ namespace app {
  
     Resources* Resources::instance;
   
-GLuint Resources::LoadModel ( string path, GLuint id, LoadPolicy loadPolicy, bool lazyInst, bool keepInMemory ) {
+GLuint Resources::AddModel ( string path, GLuint id, LoadPolicy loadPolicy, bool lazyInst, bool keepInMemory ) {
   if(this->models.count(id) != 0) {
     return 0;
   }
