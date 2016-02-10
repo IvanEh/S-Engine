@@ -1,4 +1,7 @@
 #include <app/Resources.hpp>
+
+#include <memory>
+
 #include <GL/gl.h>
 
 namespace s_engine {
@@ -6,7 +9,7 @@ namespace app {
  
     Resources* Resources::instance;
   
-GLuint Resources::AddModel ( string path, GLuint id, LoadPolicy loadPolicy, bool lazyInst, bool keepInMemory ) {
+GLuint Resources::AddModel ( GLuint id, string path, LoadPolicy loadPolicy, bool lazyInst, bool keepInMemory ) {
   if(this->models.count(id) != 0) {
     return 0;
   }
@@ -15,7 +18,7 @@ GLuint Resources::AddModel ( string path, GLuint id, LoadPolicy loadPolicy, bool
     return 0;
   }
   
-  ResInfo res;
+  ResMetadata res;
   res.res = nullptr;
   res.path = path;
   res.loadPolicy = loadPolicy;
@@ -28,7 +31,7 @@ GLuint Resources::AddModel ( string path, GLuint id, LoadPolicy loadPolicy, bool
 /**
  *@deprecated
  */    
-GLuint Resources::LoadModel ( s_engine::graphics::Model* model, GLuint id, s_engine::app::LoadPolicy 
+GLuint Resources::AddModel ( s_engine::graphics::Model* model, GLuint id, s_engine::app::LoadPolicy 
 loadPolicy, bool lazyInst, bool keepInMemory ) {
   if(this->models.count(id) != 0) {
     return 0;
@@ -38,7 +41,7 @@ loadPolicy, bool lazyInst, bool keepInMemory ) {
     return 0;
   }
   
-  ResInfo res;
+  ResMetadata res;
   res.res = model;
   res.path = "";
   res.loadPolicy = loadPolicy;
@@ -66,7 +69,7 @@ const Resource* Resources::GetResource ( Resources::ResType resType, GLuint id )
 	return nullptr;
     }
     
-    ResInfo res = (*it).second;
+    ResMetadata res = (*it).second;
     
     if(res.lazyInst) {
       if(res.res == nullptr) {
@@ -106,13 +109,64 @@ const Resource* Resources::GetNonLazyResource (ResType resType, GLuint id ) {
     return nullptr;
     }
     
-    ResInfo res = (*it).second;
+    ResMetadata res = (*it).second;
        
     if(res.loadPolicy == LAZY_LOAD ) {
       res.res->Load();
     }
     
     return res.res;
+}
+
+// FIXME: 
+ResMetadata Resources::GetResMetadata ( Resources::ResType resType, GLuint id ) {
+//     ResMetadata meta = GetNonLazyResMetadata(resType, id); 
+//     
+//     if(meta->loadPolicy == LAZY_LOAD ) {
+//       if(meta->res != nullptr) {
+//         meta->res->Load();
+//       }
+//     }
+//     
+//     return *meta;
+}
+
+ResMetadata Resources::GetNonLazyResMetadata ( Resources::ResType resType, GLuint id ) {
+    auto resHolder = ResolveResHolder(resType);
+    if(resHolder == nullptr) {
+        // invalid state
+        return ResMetadata { };
+    }
+    
+    auto it = resHolder->find(id);
+    if(it ==  resHolder->end() ) {
+        // invalid state
+        return ResMetadata { };
+    }
+    
+    ResMetadata res = (*it).second;
+    
+    return res;
+}
+
+unique_ptr< ResMetadata > Resources::GetNonLazyResMetadataPtr 
+                          ( Resources::ResType resType, GLuint id ) {
+    unique_ptr<ResMetadata> metaPtr = nullptr;
+    
+    ResHolder* resHolder = ResolveResHolder(resType);
+    if(resHolder == nullptr) {
+        return nullptr;
+    }
+    
+    auto it = resHolder->find(id);
+    if(it == resHolder->end()) {
+        return nullptr;
+    }else {
+        ResMetadata*  meta = new ResMetadata( (*it).second );
+        metaPtr.reset(meta);
+    }
+    
+    return metaPtr;
 }
 
 
@@ -122,10 +176,25 @@ const graphics::Model* Resources::GetModel ( GLuint id ) {
     return model;
 }
 
+
 const graphics::Shader* Resources::GetShader ( GLuint id ) {
     const Resource* res = GetResource(SHADER, id);
     const Shader* shader = dynamic_cast<const Shader*> ( res );
     return shader;
+}
+
+
+bool Resources::Exist ( Resources::ResType resType, GLuint id ) {
+    ResHolder* resHolder = ResolveResHolder(resType);
+    if(resHolder == nullptr) {
+        return false;
+    }
+    
+    if(resHolder->count(id) <= 0) {
+        return false;
+    }else {
+        return true;
+    }
 }
 
 
@@ -138,6 +207,26 @@ Resources& Resources::R() {
   
   return *Resources::instance;
     
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//    Private functions
+///////////////////////////////////////////////////////////////////////////////
+
+Resources::ResHolder* Resources::ResolveResHolder ( Resources::ResType resType ) {
+    ResHolder* resHolder;
+    switch(resType) {
+        case MODEL:
+            resHolder = &this->models;
+            break;
+        case SHADER:
+            resHolder = &this->shaders;
+            break;
+        default:
+            resHolder = nullptr;
+    }
+    
+    return resHolder;
 }
 
 

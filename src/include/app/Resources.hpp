@@ -2,6 +2,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 
 #include "Units.hpp"
 
@@ -46,8 +47,12 @@ enum LoadPolicy {
  MANUALLY
 };
  
-struct ResInfo {
+struct ResMetadata {
   Resource* res;
+  
+  /**
+   * If empty then the resource system will not try load the resource from disk
+   */
   string path;
   LoadPolicy loadPolicy;
 
@@ -67,7 +72,7 @@ struct ResInfo {
 
 class Resources {
 public: /* types */
-    using ResHolder = map<GLuint, ResInfo>;
+    using ResHolder = map<GLuint, ResMetadata>;
 
     enum ResType {
         MODEL,
@@ -86,19 +91,20 @@ public: /* functions */
     /**
      * Adds a model asset loading rule
      */
-    GLuint AddModel(string path, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool 
+    GLuint AddModel(GLuint id, string path = "", LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool 
         keepInMemory = true); 
     
     /**
      * Adds a shader asset loading rule
      */
-    GLuint AddShader( string path, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool 
+    GLuint AddShader(GLuint id, string path = "", LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool 
         keepInMemory = true);
+    
     
     /**
      * @deprecated
      */
-    GLuint LoadModel( Model* model, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool 
+    GLuint AddModel( Model* model, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool 
         lazyInst = false, bool keepInMemory = true );
     
     /**
@@ -120,12 +126,33 @@ public: /* functions */
      */
     const Resource* GetNonLazyResource( Resources::ResType resType, GLuint id);
     
+    
+    ResMetadata GetResMetadata( Resources::ResType resType, GLuint id );
+    /**
+     * 
+     * @return metadata of the gived resource. If resource with such id doesn't
+     * exist then a default @ref ResMetadata obj returned rather then throwing
+     * an exception
+     */
+    ResMetadata GetNonLazyResMetadata( Resources::ResType resType, GLuint id );
+    
+    /**
+     * The smart pointer version of GetNonLazyResMetadata. Use only when efficiency
+     * is needed. Consider @ref GetNonLazyResMetadata instead as more convenient
+     */
+    unique_ptr<ResMetadata> GetNonLazyResMetadataPtr(Resources::ResType resType, GLuint id);
+    
     const Model* GetModel(GLuint id);
     const Shader* GetShader(GLuint id);
-        
+     
+    /**
+     * Tests whether a resource within the given @ref ResType with @arg id id exist 
+     */
+    bool Exist(ResType resType, GLuint id);
+    
     static Resources& R();
 private:
-
+    ResHolder* ResolveResHolder(Resources::ResType resType);
 };  
 
 
