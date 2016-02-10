@@ -2,12 +2,15 @@
 
 #include <vector>
 
+#include "app/Resources.hpp"
 #include "Units.hpp"
 
 using namespace std;
+using namespace s_engine::app;
 
 namespace s_engine {
 namespace graphics {
+
 
 // TODO: shared buffers
 /**
@@ -15,7 +18,7 @@ namespace graphics {
  * It could be loaded up to the GPU.
  * Manipulations availiable only on not loaded(to the GPU) models.
  */
-class Model {
+class Model:public Resource {
 private:
   vector<Vertex> vertices;
   bool loaded {false};

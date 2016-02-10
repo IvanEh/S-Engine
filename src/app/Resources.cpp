@@ -6,7 +6,7 @@ namespace app {
  
     Resources* Resources::instance;
   
-GLuint Resources::LoadModel ( s_engine::graphics::Model* model, GLuint id, s_engine::app::ModelLoadPolicy 
+GLuint Resources::LoadModel ( s_engine::graphics::Model* model, GLuint id, s_engine::app::LoadPolicy 
 loadPolicy, bool lazyInst, bool keepInMemory ) {
   if(this->models.count(id) != 0) {
     return 0;
@@ -16,8 +16,8 @@ loadPolicy, bool lazyInst, bool keepInMemory ) {
     return 0;
   }
   
-  ModelRes res;
-  res.model = model;
+  ResInfo res;
+  res.res = model;
   res.path = "";
   res.loadPolicy = loadPolicy;
   res.lazyInst = false;
@@ -32,23 +32,28 @@ const Model* Resources::GetModel ( GLuint id ) {
 	return nullptr;
     }
     
-    ModelRes res = (*it).second;
+    ResInfo res = (*it).second;
     
     if(res.lazyInst) {
-      if(res.model == nullptr) {
+      if(res.res == nullptr) {
 	// TODO lazy inst 
       }
        
       if(res.loadPolicy == LOAD_ON_CREATION ) {
-	  res.model->Load();
+	  res.res->Load();
       }
+    }else {
+        
     }
     
     if(res.loadPolicy == LAZY_LOAD ) {
-      res.model->Load();
+      res.res->Load();
     }
     
 }
+
+
+
 
   
 Resources& Resources::R() {

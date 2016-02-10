@@ -34,6 +34,10 @@ void Model::Load() {
   }
 }
 
+void Model::Unload() {
+    // TODO: unload code
+}
+
 
 bool Model::is_loaded() const {
   return loaded;
