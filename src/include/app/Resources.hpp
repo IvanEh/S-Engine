@@ -25,6 +25,7 @@ public:
 
 namespace graphics {
     class Model;   
+    class Shader;
 }
 }
 
@@ -35,6 +36,10 @@ namespace app {
 
 using namespace s_engine::graphics;  
 
+/**
+ * This enumerated type used to define the point of loading the resource
+ * into the GPU's memory
+ */
 enum LoadPolicy {
  LOAD_ON_CREATION,
  LAZY_LOAD,
@@ -45,45 +50,74 @@ struct ResInfo {
   Resource* res;
   string path;
   LoadPolicy loadPolicy;
+
   /**
    * Defines when to create an instance of particular resource
    * if true  - load only when the resource is queried first time by the user
    *    false - load when LoadResources is called
    */
   bool lazyInst;
+ 
   /**
    * Keep in memory after loading into the gpu
    */
   bool keepInMemory;
 }; 
 
+
 class Resources {
+public: /* types */
+    using ResHolder = map<GLuint, ResInfo>;
+
+    enum ResType {
+        MODEL,
+        SHADER,
+    };
+  
 public: /* fields */
   static constexpr GLuint NONE = 0;
 private:
-  map<GLuint, ResInfo> models;
-  map<GLuint, ResInfo> shaders;
-  
+  ResHolder models;
+  ResHolder shaders;
   static Resources* instance;
-public:
+public: /* functions */
     // GLuint LoadModel(string path, LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool keepInMemory = true);
-    GLuint LoadShader(string path, LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool keepInMemory = true);
     
     GLuint LoadModel(string path, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool 
         keepInMemory = true); 
-    GLuint LoadModel( s_engine::graphics::Model* model, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool 
+    GLuint LoadShader( string path, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool lazyInst = false, bool 
+        keepInMemory = true);
+    
+    /**
+     * @deprecated
+     */
+    GLuint LoadModel( Model* model, GLuint id, LoadPolicy loadPolicy = LAZY_LOAD, bool 
         lazyInst = false, bool keepInMemory = true );
-    GLuint LoadShader( string path, bool lazyInst = false, bool keepInMemory = true);
     
     void LoadResources();
+    
+    /**
+     * Try to acquire the resource. If the resource is not loaded then load it
+     * and make an instance of it. Lazy model loaded if needed so it
+     * could take a time to execute this method
+     * @returns nullptr if the resource doesn't exist
+     */
+    const Resource* GetResource( Resources::ResType resType, GLuint id );
+    
+    /**
+     * Returns already loaded resources
+     */
+    const Resource* GetNonLazyResource( Resources::ResType resType, GLuint id);
+    
     const Model* GetModel(GLuint id);
-    const Model* GetNonLazyModel(GLuint id);
-    
-    
+    const Shader* GetShader(GLuint id);
+        
     static Resources& R();
-};
- 
-  
+private:
+
+};  
+
+
 }
 }
 
