@@ -113,6 +113,10 @@ public: /* functions */
      */
     void LoadResources();
     
+    void ReleaseAll();
+    
+    void ReleaseAll(Resources::ResType resType);
+    
     /**
      * Try to acquire the resource. If the resource is not loaded then load it
      * and make an instance of it. Lazy model loaded if needed so it
@@ -140,7 +144,7 @@ public: /* functions */
      * The smart pointer version of GetNonLazyResMetadata. Use only when efficiency
      * is needed. Consider @ref GetNonLazyResMetadata instead as more convenient
      */
-    unique_ptr<ResMetadata> GetNonLazyResMetadataPtr(Resources::ResType resType, GLuint id);
+    unique_ptr< ResMetadata > GetNonLazyResMetadataPtr( Resources::ResType resType, GLuint id );
     
     const Model* GetModel(GLuint id);
     const Shader* GetShader(GLuint id);
@@ -148,11 +152,15 @@ public: /* functions */
     /**
      * Tests whether a resource within the given @ref ResType with @arg id id exist 
      */
-    bool Exist(ResType resType, GLuint id);
+    bool Exist(ResType resType, GLuint id) const;
     
-    static Resources& R();
+    
+    static Resources& R(); 
+    
+    static void DEBUG_DESTROY();
 private:
     ResHolder* ResolveResHolder(Resources::ResType resType);
+    const ResHolder* ResolveResHolder(Resources::ResType resType) const;
 };  
 
 

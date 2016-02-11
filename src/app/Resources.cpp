@@ -51,6 +51,24 @@ loadPolicy, bool lazyInst, bool keepInMemory ) {
   this->models[id] = res;
 } 
 
+
+void Resources::ReleaseAll() {
+    ReleaseAll(MODEL);
+    ReleaseAll(SHADER);
+}
+
+void Resources::ReleaseAll(Resources::ResType resType) {
+    for(auto it: *ResolveResHolder(resType)) {
+        ResMetadata meta = it.second;
+        if(meta.res != nullptr) {
+            meta.res->Unload();
+        }
+    }
+    
+    ResolveResHolder(resType)->clear();
+}
+
+
 const Resource* Resources::GetResource ( Resources::ResType resType, GLuint id ) {
     ResHolder* resHolder;
     switch(resType) {
@@ -155,12 +173,14 @@ unique_ptr< ResMetadata > Resources::GetNonLazyResMetadataPtr
     
     ResHolder* resHolder = ResolveResHolder(resType);
     if(resHolder == nullptr) {
-        return nullptr;
+        metaPtr.release();
+        return metaPtr;
     }
     
     auto it = resHolder->find(id);
     if(it == resHolder->end()) {
-        return nullptr;
+        metaPtr.release();
+        return metaPtr;
     }else {
         ResMetadata*  meta = new ResMetadata( (*it).second );
         metaPtr.reset(meta);
@@ -184,8 +204,8 @@ const graphics::Shader* Resources::GetShader ( GLuint id ) {
 }
 
 
-bool Resources::Exist ( Resources::ResType resType, GLuint id ) {
-    ResHolder* resHolder = ResolveResHolder(resType);
+bool Resources::Exist ( Resources::ResType resType, GLuint id ) const {
+    const ResHolder* resHolder = ResolveResHolder(resType);
     if(resHolder == nullptr) {
         return false;
     }
@@ -209,12 +229,24 @@ Resources& Resources::R() {
     
 }
 
+
+void Resources::DEBUG_DESTROY() {
+    delete Resources::instance;
+    Resources::instance = nullptr;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 //    Private functions
 ///////////////////////////////////////////////////////////////////////////////
 
 Resources::ResHolder* Resources::ResolveResHolder ( Resources::ResType resType ) {
-    ResHolder* resHolder;
+    const Resources* constThis = this;
+    return const_cast<Resources::ResHolder*> ( constThis->ResolveResHolder(resType) );
+}
+
+const Resources::ResHolder* Resources::ResolveResHolder ( Resources::ResType resType ) const {
+    const ResHolder* resHolder;
     switch(resType) {
         case MODEL:
             resHolder = &this->models;
@@ -228,7 +260,6 @@ Resources::ResHolder* Resources::ResolveResHolder ( Resources::ResType resType )
     
     return resHolder;
 }
-
 
 
   
